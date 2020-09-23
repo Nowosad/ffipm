@@ -1,15 +1,21 @@
-#' Title
+#' Trap Plot
 #'
-#' @param df
-#' @param type
+#' @param df The output of the [read_pd()] function
+#' @param type A type of the output plot. Either "line" or "bar"
 #'
-#' @return
+#' @return A ggplot object
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   maindir <- "../corvus_dynamic_outputs/Digitising FF trapping plots/"
+#'   filename <- "Bjelis_2007_1"; species <- "Cc"
+#'   x <- read_pd(filename, species, maindir)
+#'   trap_plot(x)
+#'   trap_plot(x, "bar")
+#'   trap_plot(x) + ggplot2::labs(title = "Title", x = "X", y = "Y")
+#' }
 trap_plot <- function(df, type = "line"){
-  source("R/theme_cg.R")
-  # x <- read_pd(filename, species)
   if (type == "line"){
     p <- ggplot2::ggplot(df, ggplot2::aes(time, value)) +
       ggplot2::geom_line() +
@@ -45,14 +51,3 @@ which_x_scale = function(type){
   }
 }
 
-# type - "line" or "bar"
-
-
-# setup ------------------------------------------------------------------
-# filename <- "20_1b_1"; species <- "Bd"
-# filename <- "Bjelis_2007_1"; species <- "Cc"
-# x <- read_pd(filename, species)
-#
-# trap_plot(x)
-# trap_plot(x, "bar")
-# trap_plot(x) + ggplot2::labs(title = "Tytuł", x = "X", y = "Y")
