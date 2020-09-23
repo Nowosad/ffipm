@@ -15,4 +15,14 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
-    magrittr
+    magrittr,
+    ISOweek,
+    av,
+    dplyr,
+    ggplot2,
+    lubridate,
+    ncdf4,
+    raster,
+    readODS,
+    stringr,
+    tmap
