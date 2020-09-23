@@ -1,39 +1,33 @@
-#' Title
+#' Create Time Series
 #'
-#' @param rasters
-#' @param x
-#' @param y
-#' @param years
-#' @param start_week
-#' @param end_week
+#' @param rasters An output from [create_raster_stack()]
+#' @param x An x coordinate (longitude)
+#' @param y A y coordinate (latitude)
+#' @param years A vector stating for which years the time series will be extracted
+#' @param start_week A number of first week in the output RasterStack.
+#'   The default is 1
+#' @param end_week A number of last week in the output RasterStack.
+#'   The default is 52
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' # improve time handling
-# dname <- "Weekly Growth Index"  # GI
-# dname <- "Hot Stress"
-# dname <- "Dry Stress"
-# dname <- "Wet Stress"
-# dname <- "Cold Stress"
-# dname <- "Ecoclimatic Index"    # EI
-# dname <- "Moisture Index"
-# dname <- "Temperature Index"
-# Path <- "C:/Google Drive/Corvus Geostat - Jakub Nowosad/"
-# Path <- "./"
-# input_file <- paste0(Path,"NetCDF/DxResults_Cc_2010-2015.nc")
-# AllYears <- extract_data_list(input_file, "Weekly Growth Index",
-#                               years = 2000:2014)
-#
-# rasters <- create_raster_stack(AllYears, years = 2000:2014)
-#
-# cts <- create_time_series(rasters,
-#                           years = 2000:2014,
-#                           x = 3.57, y = 50.35)
-
-# library(ggplot2)
-# ggplot(cts, aes(date, V1)) + geom_line()
+#' \dontrun{
+#'   Path <- "C:/Google Drive/Corvus Geostat - Jakub Nowosad/"
+#'   Path <- "../corvus_dynamic_outputs/"
+#'   input_file <- paste0(Path,"NetCDF/DxResults_Cc_2010-2015.nc")
+#'   AllYears <- extract_data_list(input_file, "Weekly Growth Index",
+#'                               years = 2000:2014)
+#'   rasters <- create_raster_stack(AllYears, years = 2000:2014)
+#'
+#'   cts <- create_time_series(rasters,
+#'                           years = 2000:2014,
+#'                           x = 3.57, y = 50.35)
+#'
+#'   library(ggplot2)
+#'   ggplot(cts, aes(date, V1)) + geom_line()
+#' }
 create_time_series <- function(rasters,
                                x = 3.57, y = 50.35,
                                # n = 52,
