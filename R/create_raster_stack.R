@@ -1,19 +1,28 @@
-#' Title
+#' Create Raster Stack
 #'
-#' @param allyears
-#' @param years
-#' @param start_week
-#' @param end_week
+#' @param allyears An output from [extract_data_list()]
+#' @param years A vector stating for which years the RasterStack should be created
+#' @param start_week A number of first week in the output RasterStack.
+#'   The default is 1
+#' @param end_week A number of last week in the output RasterStack.
+#'   The default is 52
 #'
-#' @return
+#' @return A RasterStack with some metadata
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'   Path <- "C:/Google Drive/Corvus Geostat - Jakub Nowosad/"
+#'   Path <- "../corvus_dynamic_outputs/"
+#'   input_file <- paste0(Path,"NetCDF/DxResults_Cc_2010-2015.nc")
+#'   AllYears <- extract_data_list(input_file, "Weekly Growth Index",
+#'                               years = 2000:2014)
+#'   rasters <- create_raster_stack(AllYears, years = 2000:2014)
+#' }
 create_raster_stack <- function(allyears,
                                 years,
                                 start_week = 1, end_week = 52){
   metadata <- attr(allyears, "metadata")
-  dname <- attr(allyears, "dname")
 
   # select years
   years_range <- years
@@ -37,7 +46,7 @@ create_raster_stack <- function(allyears,
   allyears <- lapply(allyears, create_raster_single, metadata = metadata)
   allyears <- raster::stack(allyears)
   names(allyears) <- layer_names
-  attr(allyears, "dname") <- dname
+  attr(allyears, "dname") <- metadata$dname
   return(allyears)
 }
 
@@ -95,6 +104,3 @@ create_raster_single <- function(input, metadata){
   raster::values(template_raster) <- m
   return(template_raster)
 }
-
-
-
