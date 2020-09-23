@@ -1,32 +1,50 @@
-#' Title
+#' Read PD
 #'
-#' @param a
-#' @param filename
-#' @param species
-#' @param ...
+#' @param filename Name of the file without extension as specified in the `File_name` column of the Diagrams_sumary - HG_zmiany.ods file
+#' @param species "Cc", "Bd", or "Bz"
+#' @param maindir A main directory containing subdirectories for each species
+#' @param id Number of a row from the Diagrams_sumary - HG_zmiany.ods file.
+#' Can be used instead of `filename` and `species`
+#' @param ... Additional arguments for [utils::read.csv2()]
 #'
-#' @return
+#' @return A data.frame with four columns: time, value, lat, and lon.
+#' It additionally contains several hidden attributes: xlab, ylab, and location.
 #' @export
 #'
 #' @examples
-read_pd <- function(a, filename, species, ...){
-  param_df <- readODS::read_ods("Digitising FF trapping plots/Diagrams_sumary - HG_zmiany.ods") %>%
-    dplyr::select(Record_ID:Data_type) %>%
-    # dplyr::filter(File_name == filename,
-    #               FF_species == species)
-    dplyr::slice(a)
+#' \dontrun{
+#'   maindir <- "../corvus_dynamic_outputs/Digitising FF trapping plots/"
+#'   filename <- "Bjelis_2007_1"; species <- "Cc"
+#'   x <- read_pd(filename, species, maindir)
+#'   y <- read_pd(maindir = maindir, id = 3)
+#' }
+#'
+read_pd <- function(filename, species, maindir = "Digitising FF trapping plots/",
+                    id, ...){
+  param_df <- readODS::read_ods(system.file("data/Diagrams_sumary - HG_zmiany.ods", package = "ffipm"))
+
+  if (!missing(id)){
+    param_df <- param_df %>%
+      dplyr::slice(id)
+
+  } else {
+    param_df <- param_df %>%
+      dplyr::select(Record_ID:Data_type) %>%
+      dplyr::filter(File_name == filename,
+                    FF_species == species)
+  }
 
   folder_name <- switch(param_df$FF_species,
                         Cc = "C. capitata - pliki csv",
                         Bd = "B. dorsalis - pliki csv",
                         Bz = "B. zonata - pliki csv")
 
-  file_sel <- paste0("Digitising FF trapping plots/",
+  file_sel <- paste0(maindir,
                      folder_name, "/",
                      param_df$File_name,
                      ".csv")
   message(file_sel)
-  df <- read_pd_internal(file_sel)
+  df <- read_pd_internal(file_sel, ...)
   df$lat <- param_df$Latitude
   df$lon <- param_df$Longitude
   start_x <- param_df$start_x
