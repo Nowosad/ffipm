@@ -33,8 +33,8 @@ trap_model_plot <- function(x, rasters){
                                 x = x_lon, y = x_lat)
 
   x_model <- dplyr::filter(x_model,
-                           time >= min(x$time),
-                           time <= max(x$time))
+                           .data$time >= min(x$time),
+                           .data$time <= max(x$time))
 
   x_model$lat <- x_lat
   x_model$lon <- x_lon
@@ -42,7 +42,7 @@ trap_model_plot <- function(x, rasters){
   all_x = rbind(x, x_model)
 
   ggplot2::ggplot(all_x) +
-    ggplot2::geom_line(ggplot2::aes(time, value)) +
+    ggplot2::geom_line(ggplot2::aes(.data$time, .data$value)) +
     ggplot2::facet_wrap(~variable, scales = "free_y") +
     ggplot2::labs(title = attr(x, "location")) +
     theme_cg()

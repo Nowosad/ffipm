@@ -34,7 +34,7 @@ create_raster_stack <- function(allyears,
                         rep(sprintf("%04d", as.numeric(names(allyears))),
                             each = length(start_week:end_week)),
                         rep.int(sprintf("%02d", as.numeric(start_week:end_week)),
-                                times = length(AllYears)))
+                                times = length(allyears)))
 
   # select weeks
   allyears <- lapply(allyears, function(x) x[start_week:end_week])

@@ -17,11 +17,11 @@
 #' }
 trap_plot <- function(df, type = "line"){
   if (type == "line"){
-    p <- ggplot2::ggplot(df, ggplot2::aes(time, value)) +
+    p <- ggplot2::ggplot(df, ggplot2::aes(.data$time, .data$value)) +
       ggplot2::geom_line() +
       ggplot2::geom_point()
   } else if (type == "bar") {
-    p <- ggplot2::ggplot(df, ggplot2::aes(time, value)) +
+    p <- ggplot2::ggplot(df, ggplot2::aes(.data$time, .data$value)) +
       ggplot2::geom_col()
   }
   date_breaks_style <- which_x_scale(attr(df, "xlab"))

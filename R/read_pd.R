@@ -21,7 +21,7 @@
 #'
 read_pd <- function(filename, species, maindir = "Digitising FF trapping plots/",
                     id, ...){
-  param_df <- readODS::read_ods(system.file("data/Diagrams_sumary - HG_zmiany.ods", package = "ffipm"))
+  param_df <- readODS::read_ods(system.file("table/data_summary.ods", package = "ffipm"))
 
   if (!missing(id)){
     param_df <- param_df %>%
@@ -29,9 +29,9 @@ read_pd <- function(filename, species, maindir = "Digitising FF trapping plots/"
 
   } else {
     param_df <- param_df %>%
-      dplyr::select(Record_ID:Data_type) %>%
-      dplyr::filter(File_name == filename,
-                    FF_species == species)
+      dplyr::select(.data$Record_ID:.data$Data_type) %>%
+      dplyr::filter(.data$File_name == filename,
+                    .data$FF_species == species)
   }
 
   folder_name <- switch(param_df$FF_species,
@@ -63,7 +63,7 @@ read_pd <- function(filename, species, maindir = "Digitising FF trapping plots/"
 
 # read Plot Digitizer -----------------------------------------------------
 read_pd_internal <- function(file, ...){
-  x <- read.csv2(file, header = TRUE, row.names = NULL, skip = 5, ...)
+  x <- utils::read.csv2(file, header = TRUE, row.names = NULL, skip = 5, ...)
   # names(x) <- names(x)[c(2, 3, 1)]
   x <- as.data.frame(apply(x, 2, as.numeric))
   x[[2]] <- ifelse(x[[2]] < 0, 0, x[[2]])
