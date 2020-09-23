@@ -9,7 +9,7 @@
 #' @param end_week A number of last week in the output RasterStack.
 #'   The default is 52
 #'
-#' @return
+#' @return A data.frame with three columns: time, value, variable.
 #' @export
 #'
 #' @examples
@@ -26,13 +26,14 @@
 #'                           x = 3.57, y = 50.35)
 #'
 #'   library(ggplot2)
-#'   ggplot(cts, aes(date, V1)) + geom_line()
+#'   ggplot(cts, aes(time, value)) + geom_line()
 #' }
 create_time_series <- function(rasters,
                                x = 3.57, y = 50.35,
                                # n = 52,
                                years,
                                start_week = 1, end_week = 52){
+  dname <- attr(rasters, "dname")
 
   sel_layers <- which(as.numeric(substr(names(rasters), 2, 5)) %in% years)
   rasters <- raster::subset(rasters, sel_layers)
@@ -43,6 +44,8 @@ create_time_series <- function(rasters,
 
   result <- names_to_dates(names(rasters))
   result <- cbind(result, rr)
+  names(result) <- c("time", "value")
+  result$variable <- dname
   return(result)
 }
 
