@@ -47,17 +47,22 @@ read_pd <- function(filename, species, maindir = "Digitising FF trapping plots/"
   df <- read_pd_internal(file_sel, ...)
   df$lat <- param_df$Latitude
   df$lon <- param_df$Longitude
-  start_x <- param_df$start_x
-  end_x <- param_df$end_x
+  # start_x <- param_df$start_x
+  # end_x <- param_df$end_x
   # toFix for more than one year
   year <- (as.numeric(unlist(stringr::str_split(param_df$Data_year, ","))))
-  df$time <- prepare_time(df$time, year = unique(year),
+  df$time <- prepare_time(df$time,
+                          year = unique(year),
                           type = param_df$Unit_x_axis,
                           start_x = param_df$start_x,
                           end_x = param_df$end_x)
   attr(df, "xlab") <- param_df$Unit_x_axis
   attr(df, "ylab") <- param_df$Unit_y_axis
   attr(df, "location") <- param_df$Location
+  if(param_df$Unit_x_axis == "month_avg"){
+    attr(df, "years") <- unique(year)
+    warning("The data contains averages for many years, however the time columns presents its as for one year", call. = FALSE)
+  }
   return(df)
 }
 
@@ -76,25 +81,25 @@ read_pd_internal <- function(file, ...){
 # x
 
 # prepare_date ------------------------------------------------------------
-prep_date <- function(time, year, format){
-  is_leap_year <- lubridate::leap_year(year)
-  if (format == "month"){
-    st_time <- time / 12
-    if (is_leap_year){
-      day_of_year <- st_time * 366
-    } else {
-      day_of_year <- st_time * 365
-    }
-  } else if (format == "day"){
-    day_of_year <- time
-  } else if (format == "date"){
-    stop("Not yet implemented", call. = FALSE)
-  }
-
-  origin <- as.Date(paste0(year, "-01-01"), tz = "UTC") - lubridate::days(1)
-  result <- as.Date(day_of_year, origin = origin, tz = "UTC")
-  return(result)
-}
+# prep_date <- function(time, year, format){
+#   is_leap_year <- lubridate::leap_year(year)
+#   if (format == "month"){
+#     st_time <- time / 12
+#     if (is_leap_year){
+#       day_of_year <- st_time * 366
+#     } else {
+#       day_of_year <- st_time * 365
+#     }
+#   } else if (format == "day"){
+#     day_of_year <- time
+#   } else if (format == "date"){
+#     stop("Not yet implemented", call. = FALSE)
+#   }
+#
+#   origin <- as.Date(paste0(year, "-01-01"), tz = "UTC") - lubridate::days(1)
+#   result <- as.Date(day_of_year, origin = origin, tz = "UTC")
+#   return(result)
+# }
 
 rescale_month <- function(x, start_x, end_x){
   if (start_x > end_x){
@@ -133,6 +138,8 @@ prepare_time <- function(time, year, type, start_x, end_x){
     # filename <- "20_1b_1"; species <- "Bd"
     result <- seq(as.numeric(start_x), as.numeric(end_x), by = 1)
     result <- as.Date(paste0(result, "-01-01"))
+  } else if (type == "month_avg"){
+    result <- seq(as.Date(start_x), as.Date(end_x), by = "month")[seq_along(time)]
   } else if (type == "fortnight"){
     # filename <- "35_1powiekszone_1"; species <- "Bz"
     result <- seq(as.Date(start_x), as.Date(end_x), by = "2 week")
