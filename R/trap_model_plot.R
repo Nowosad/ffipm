@@ -23,7 +23,11 @@
 #' }
 trap_model_plot <- function(x, rasters){
   x$variable <- attr(x, "ylab")
-  all_years <- sort(unique(lubridate::year(x$time)))
+  # if (length(attr(x, "years")) > 0){
+    # all_years <- attr(x, "years")
+  # } else {
+    all_years <- sort(unique(lubridate::year(x$time)))
+  # }
   x_lat <- unique(x$lat)
   x_lon <- unique(x$lon)
   x <- x[c(1, 2, 5, 3, 4)]
@@ -32,9 +36,18 @@ trap_model_plot <- function(x, rasters){
                                 years = all_years,
                                 x = x_lon, y = x_lat)
 
-  x_model <- dplyr::filter(x_model,
-                           .data$time >= min(x$time),
-                           .data$time <= max(x$time))
+  # if (length(attr(x, "years")) > 0){
+  #   x_model = x_model %>%
+  #     dplyr::group_by(doy = lubridate::yday(time), variable) %>%
+  #     dplyr::summarize(value = mean(value)) %>%
+  #     dplyr::mutate(time = as.Date(doy - 1, origin = paste0(all_years[[1]], "-01-01"))) %>%
+  #     dplyr::ungroup() %>%
+  #     dplyr::select(time, value, variable)
+  # } else {
+    x_model <- dplyr::filter(x_model,
+                             .data$time >= min(x$time),
+                             .data$time <= max(x$time))
+  # }
 
   x_model$lat <- x_lat
   x_model$lon <- x_lon
