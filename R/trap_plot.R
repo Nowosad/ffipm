@@ -46,6 +46,8 @@ which_x_scale = function(type){
     "%m-%Y" #"%b"
   } else if (type == "year"){
     "%Y"
+  } else if (type == "month_avg"){
+    "%m"
   } else if (type == "fortnight"){
     "%m-%Y"
   }
