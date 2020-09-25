@@ -4,7 +4,14 @@
 \alias{read_pd}
 \title{Read PD}
 \usage{
-read_pd(filename, species, maindir = "Digitising FF trapping plots/", id, ...)
+read_pd(
+  filename,
+  species,
+  maindir = "Digitising FF trapping plots/",
+  id,
+  param_df,
+  ...
+)
 }
 \arguments{
 \item{filename}{Name of the file without extension as specified in the \code{File_name} column of the Diagrams_sumary - HG_zmiany.ods file}
@@ -13,8 +20,10 @@ read_pd(filename, species, maindir = "Digitising FF trapping plots/", id, ...)
 
 \item{maindir}{A main directory containing subdirectories for each species}
 
-\item{id}{Number of a row from the Diagrams_sumary - HG_zmiany.ods file.
+\item{id}{Number of a row from the table/data_summary.ods file.
 Can be used instead of \code{filename} and \code{species}}
+
+\item{param_df}{A path to the file with metadata (e.g., "table/data_summary.ods")}
 
 \item{...}{Additional arguments for \code{\link[utils:read.table]{utils::read.csv2()}}}
 }

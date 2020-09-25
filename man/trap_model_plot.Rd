@@ -4,12 +4,14 @@
 \alias{trap_model_plot}
 \title{Trap Model Plot}
 \usage{
-trap_model_plot(x, rasters)
+trap_model_plot(x, rasters, full_year = FALSE)
 }
 \arguments{
 \item{x}{An output from \code{\link[=read_pd]{read_pd()}}}
 
 \item{rasters}{An output from \code{\link[=create_raster_stack]{create_raster_stack()}}}
+
+\item{full_year}{Should we use observation for the whole year (TRUE) or just for the dates from x (FALSE). The default is FALSE.}
 }
 \value{
 A ggplot object

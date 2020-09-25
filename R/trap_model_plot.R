@@ -2,6 +2,7 @@
 #'
 #' @param x An output from [read_pd()]
 #' @param rasters An output from [create_raster_stack()]
+#' @param full_year Should we use observation for the whole year (TRUE) or just for the dates from x (FALSE). The default is FALSE.
 #'
 #' @return A ggplot object
 #' @export
@@ -21,7 +22,7 @@
 #'
 #'   trap_model_plot(x, rasters)
 #' }
-trap_model_plot <- function(x, rasters){
+trap_model_plot <- function(x, rasters, full_year = FALSE){
   location <- attr(x, "location")
   x$variable <- attr(x, "ylab")
   # if (length(attr(x, "years")) > 0){
@@ -45,9 +46,11 @@ trap_model_plot <- function(x, rasters){
   #     dplyr::ungroup() %>%
   #     dplyr::select(time, value, variable)
   # } else {
+  if (!full_year) {
     x_model <- dplyr::filter(x_model,
                              .data$time >= min(x$time),
                              .data$time <= max(x$time))
+  }
   # }
 
   x_model$lat <- x_lat

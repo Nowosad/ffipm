@@ -3,8 +3,9 @@
 #' @param filename Name of the file without extension as specified in the `File_name` column of the Diagrams_sumary - HG_zmiany.ods file
 #' @param species "Cc", "Bd", or "Bz"
 #' @param maindir A main directory containing subdirectories for each species
-#' @param id Number of a row from the Diagrams_sumary - HG_zmiany.ods file.
+#' @param id Number of a row from the table/data_summary.ods file.
 #' Can be used instead of `filename` and `species`
+#' @param param_df A path to the file with metadata (e.g., "table/data_summary.ods")
 #' @param ... Additional arguments for [utils::read.csv2()]
 #'
 #' @return A data.frame with four columns: time, value, lat, and lon.
@@ -20,8 +21,12 @@
 #' }
 #'
 read_pd <- function(filename, species, maindir = "Digitising FF trapping plots/",
-                    id, ...){
-  param_df <- readODS::read_ods(system.file("table/data_summary.ods", package = "ffipm"))
+                    id, param_df, ...){
+  if (missing(param_df)){
+    param_df <- readODS::read_ods(system.file("table/data_summary.ods", package = "ffipm"))
+  } else {
+    param_df <- readODS::read_ods(param_df)
+  }
 
   if (!missing(id)){
     param_df <- param_df %>%
