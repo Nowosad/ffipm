@@ -29,3 +29,5 @@ Imports:
     readODS,
     stringr,
     tmap
+URL: https://github.com/Nowosad/ffipm
+BugReports: https://github.com/Nowosad/ffipm/issues
