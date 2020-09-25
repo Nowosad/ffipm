@@ -4,9 +4,20 @@
 \name{ffipm-package}
 \alias{ffipm}
 \alias{ffipm-package}
-\title{ffipm: What the Package Does (One Line, Title Case)}
+\title{ffipm: FF-IPM Support Functions}
 \description{
-What the package does (one paragraph).
+A set of functions supporting processing and visualizing data
+    related to the FF-IPM project.
+    It includes creating RasterStack based on models' results, extracting 
+    time series from models, making animations, and many others.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/Nowosad/ffipm}
+  \item Report bugs at \url{https://github.com/Nowosad/ffipm/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Jakub Nowosad \email{nowosad.jakub@gmail.com} (\href{https://orcid.org/0000-0002-1057-3721}{ORCID})

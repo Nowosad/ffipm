@@ -22,6 +22,7 @@
 #'   trap_model_plot(x, rasters)
 #' }
 trap_model_plot <- function(x, rasters){
+  location <- attr(x, "location")
   x$variable <- attr(x, "ylab")
   # if (length(attr(x, "years")) > 0){
     # all_years <- attr(x, "years")
@@ -57,7 +58,7 @@ trap_model_plot <- function(x, rasters){
   ggplot2::ggplot(all_x) +
     ggplot2::geom_line(ggplot2::aes(.data$time, .data$value)) +
     ggplot2::facet_wrap(~variable, scales = "free_y") +
-    ggplot2::labs(title = attr(x, "location")) +
+    ggplot2::labs(title = location) +
     theme_cg()
 }
 

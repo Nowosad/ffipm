@@ -28,7 +28,8 @@ trap_plot <- function(df, type = "line"){
   p <- p +
     theme_cg() +
     ggplot2::labs(x = attr(df, "xlab"),
-                  y = attr(df, "ylab")) +
+                  y = attr(df, "ylab"),
+                  title = attr(df, "location")) +
     ggplot2::scale_x_date(date_labels = date_breaks_style)
   return(p)
 }
