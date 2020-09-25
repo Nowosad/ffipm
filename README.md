@@ -6,6 +6,12 @@
 
 <!-- The goal of ffipm is to ...-->
 
+## Installation
+
+```
+remotes::install_github("nowosad/ffipm")
+```
+
 ## Main functions
 
 - `extract_data_list()` 

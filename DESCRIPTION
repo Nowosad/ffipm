@@ -1,5 +1,5 @@
 Package: ffipm
-Title: What the Package Does (One Line, Title Case)
+Title: FF-IPM Support Functions
 Version: 0.1.1
 Authors@R: c(
     person(given = "Jakub", family = "Nowosad", 
@@ -8,9 +8,11 @@ Authors@R: c(
     comment = c(ORCID = "0000-0002-1057-3721")),
     person("Corvus Geostat", role = c("cph"))
     )
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+Description: A set of functions supporting processing and visualizing data
+    related to the FF-IPM project.
+    It includes creating RasterStack based on models' results, extracting 
+    time series from models, making animations, and many others.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
