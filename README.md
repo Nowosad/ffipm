@@ -17,7 +17,7 @@ remotes::install_github("nowosad/ffipm")
 ### Model-based
 
 - `extract_data_list()` - extracts selected variable from the model (`.nc`) into a list of matrices
-- `create_raster_stact()` - creates a RasterStack based on the result from `extract_data_list()`
+- `create_raster_stack()` - creates a RasterStack based on the result from `extract_data_list()`
 - `create_time_series()` - extracts a time series for a given coordinates from the result of `create_raster_stact()`
 - `raster_animation()` - creates an animation based on the result of `create_raster_stact()`
 
