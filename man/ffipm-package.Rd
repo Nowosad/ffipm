@@ -6,10 +6,7 @@
 \alias{ffipm-package}
 \title{ffipm: FF-IPM Support Functions}
 \description{
-A set of functions supporting processing and visualizing data
-    related to the FF-IPM project.
-    It includes creating RasterStack based on models' results, extracting 
-    time series from models, making animations, and many others.
+A set of functions supporting processing and visualizing data related to the FF-IPM project. It includes creating RasterStack based on models' results, extracting time series from models, making animations, and many others.
 }
 \seealso{
 Useful links:
