@@ -20,6 +20,7 @@ remotes::install_github("nowosad/ffipm")
 - `create_raster_stack()` - creates a RasterStack based on the result from `extract_data_list()`
 - `create_time_series()` - extracts a time series for a given coordinates from the result of `create_raster_stact()`
 - `raster_animation()` - creates an animation based on the result of `create_raster_stact()`
+- `create_composite_raster()` - create a composite raster stack based on 2 models and a raster mask with values 0 and 1. Values from model 1 will be assigned where mask is 0, and values from model 2 where mask is 1.
 
 ### Plot-based
 
