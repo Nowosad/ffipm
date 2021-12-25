@@ -11,8 +11,8 @@ A set of functions supporting processing and visualizing data related to the FF-
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/Nowosad/ffipm}
-  \item Report bugs at \url{https://github.com/Nowosad/ffipm/issues}
+  \item \url{https://github.com/aniaszy/ffipm}
+  \item Report bugs at \url{https://github.com/aniaszy/ffipm/issues}
 }
 
 }
