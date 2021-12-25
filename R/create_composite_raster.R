@@ -4,7 +4,8 @@
 #' @param file1 file An ncdf file for mask 0 values
 #' @param file2 file An ncdf file for mask 1 values
 #' @param mask Irrigation mask raster with values 0,1
-#' @param years A vector stating for which years the RasterStack should be created
+#' @param years_input_file A vector indicating years in the input file
+#' @param years_raster_stack A vector stating for which years the RasterStack should be created
 #' @param dname A variable name. One of "Weekly Growth Index", "Hot Stress", "Dry Stress", "Wet Stress", "Cold Stress", "Ecoclimatic Index", "Moisture Index", "Temperature Index"
 #'
 #' @return A Composite RasterStack with some metadata
@@ -19,14 +20,14 @@
 #'                                   dname = "Weekly Growth Index")
 #'
 #' }
-create_composite_raster <- function(file1, file2, mask, years, dname) {
+create_composite_raster <- function(file1, file2, mask, years_input_file, years_raster_stack, dname) {
   mask <- raster::raster(mask) # read mask
 
   # extracts selected variable from the model (.nc) into a list of matrices
   AllYears1 <- extract_data_list(file1, dname,
-                                 years = years)
+                                 years = years_input_file)
   # creates a RasterStack based on the result from extract_data_list()
-  rasters1 <- create_raster_stack(AllYears1, years = years)
+  rasters1 <- create_raster_stack(AllYears1, years = years_raster_stack)
 
   #remove AllYears1 to not run out of memory
   rm(AllYears1)
@@ -46,9 +47,9 @@ create_composite_raster <- function(file1, file2, mask, years, dname) {
   gc() # free unused memory
   # extracts selected variable from the model (.nc) into a list of matrices
   AllYears2 <- extract_data_list(file2, dname,
-                                 years = years)
+                                 years = years_input_file)
   # creates a RasterStack based on the result from extract_data_list()
-  rasters2 <- create_raster_stack(AllYears2, years = years)
+  rasters2 <- create_raster_stack(AllYears2, years = years_raster_stack)
 
 
   rm(AllYears2)

@@ -4,7 +4,14 @@
 \alias{create_composite_raster}
 \title{Create Composite raster}
 \usage{
-create_composite_raster(file1, file2, mask, years, dname)
+create_composite_raster(
+  file1,
+  file2,
+  mask,
+  years_input_file,
+  years_raster_stack,
+  dname
+)
 }
 \arguments{
 \item{file1}{file An ncdf file for mask 0 values}
@@ -13,7 +20,9 @@ create_composite_raster(file1, file2, mask, years, dname)
 
 \item{mask}{Irrigation mask raster with values 0,1}
 
-\item{years}{A vector stating for which years the RasterStack should be created}
+\item{years_input_file}{A vector indicating years in the input file}
+
+\item{years_raster_stack}{A vector stating for which years the RasterStack should be created}
 
 \item{dname}{A variable name. One of "Weekly Growth Index", "Hot Stress", "Dry Stress", "Wet Stress", "Cold Stress", "Ecoclimatic Index", "Moisture Index", "Temperature Index"}
 }
