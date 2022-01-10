@@ -28,6 +28,8 @@ Imports:
     raster,
     readODS,
     stringr,
-    tmap
+    tmap,
+    xts,
+    zoo
 URL: https://github.com/aniaszy/ffipm
 BugReports: https://github.com/aniaszy/ffipm/issues

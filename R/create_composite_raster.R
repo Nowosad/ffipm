@@ -1,6 +1,6 @@
 #' Create Composite raster
 #'
-#'file1, file2, mask, years, indicatior
+#'file1, file2, mask, years_input_file, years_raster_stack, dname
 #' @param file1 file An ncdf file for mask 0 values
 #' @param file2 file An ncdf file for mask 1 values
 #' @param mask Irrigation mask raster with values 0,1
