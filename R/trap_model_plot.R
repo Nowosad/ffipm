@@ -25,33 +25,47 @@
 trap_model_plot <- function(x, rasters, full_year = FALSE){
   location <- attr(x, "location")
   x$variable <- attr(x, "ylab")
-  # if (length(attr(x, "years")) > 0){
-    # all_years <- attr(x, "years")
-  # } else {
+  if (length(attr(x, "years")) > 0){
+  all_years <- attr(x, "years")
+  } else {
     all_years <- sort(unique(lubridate::year(x$time)))
-  # }
+  }
   x_lat <- unique(x$lat)
   x_lon <- unique(x$lon)
-  x <- x[c(1, 2, 5, 3, 4)]
 
   x_model <- create_time_series(rasters,
                                 years = all_years,
                                 x = x_lon, y = x_lat)
 
-  # if (length(attr(x, "years")) > 0){
-  #   x_model = x_model %>%
-  #     dplyr::group_by(doy = lubridate::yday(time), variable) %>%
-  #     dplyr::summarize(value = mean(value)) %>%
-  #     dplyr::mutate(time = as.Date(doy - 1, origin = paste0(all_years[[1]], "-01-01"))) %>%
-  #     dplyr::ungroup() %>%
-  #     dplyr::select(time, value, variable)
-  # } else {
+  if (length(attr(x, "years")) > 0){
+    x_model = x_model %>%
+      dplyr::group_by(week = lubridate::isoweek(lubridate::ymd(.data$time)), .data$variable) %>%
+      dplyr::summarize(value = mean(.data$value)) %>%
+      dplyr::mutate(time = as.Date(strptime(paste0("2018", stringr::str_sub(paste0("0", .data$week), start= -2), "1"), "%Y%W%u"))) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(.data$time, .data$value, .data$variable)
+
+    x_model_2 <- zoo::na.locf(merge(xts::xts(x_model$value, x_model$time), xts::xts(, seq(from = (as.Date("2018-01-01")), (as.Date("2018-12-31")), "days"))))
+    x_model.df <- data.frame(time=zoo::index(x_model_2), zoo::coredata(x_model_2), variable = x_model$variable[1])
+    colnames(x_model.df) <- c("time", "value", "variable")
+    x_model <- x_model.df %>%
+      dplyr::group_by(month = lubridate::month(.data$time), .data$variable) %>%
+      dplyr::summarize(value = mean(.data$value)) %>%
+      dplyr::mutate(time = as.character(as.Date(paste(attr(x, "years")[[1]], .data$month, "15", sep = "-")))) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(.data$time, .data$value, .data$variable)
+
+    date_format <- "%b"
+  } else {
   if (!full_year) {
     x_model <- dplyr::filter(x_model,
                              .data$time >= min(x$time),
                              .data$time <= max(x$time))
   }
-  # }
+    date_format <- "%b %Y"
+  }
+
+  x <- x[c(1, 2, 5, 3, 4)]
 
   x_model$lat <- x_lat
   x_model$lon <- x_lon

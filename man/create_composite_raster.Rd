@@ -30,7 +30,7 @@ create_composite_raster(
 A Composite RasterStack with some metadata
 }
 \description{
-file1, file2, mask, years, indicatior
+file1, file2, mask, years_input_file, years_raster_stack, dname
 }
 \examples{
 \dontrun{
