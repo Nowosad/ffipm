@@ -76,6 +76,7 @@ trap_model_plot <- function(x, rasters, full_year = FALSE){
     ggplot2::geom_line(ggplot2::aes(.data$time, .data$value)) +
     ggplot2::facet_wrap(~variable, scales = "free_y") +
     ggplot2::labs(title = location) +
+    ggplot2::scale_x_date(labels=scales::date_format(date_format)) +
     theme_cg()
 }
 
