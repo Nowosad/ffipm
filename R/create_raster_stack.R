@@ -6,6 +6,7 @@
 #'   The default is 1
 #' @param end_week A number of last week in the output RasterStack.
 #'   The default is 52
+#' @param step "Step" for weekly data or "Year" for yearly data
 #'
 #' @return A RasterStack with some metadata
 #' @export
@@ -21,7 +22,8 @@
 #' }
 create_raster_stack <- function(allyears,
                                 years,
-                                start_week = 1, end_week = 52){
+                                start_week = 1, end_week = 52,
+                                step = "Step"){
   metadata <- attr(allyears, "metadata")
 
   # select years
@@ -30,22 +32,30 @@ create_raster_stack <- function(allyears,
 
   if (length(allyears) < 1) stop("Selected years do not exist", call. = FALSE)
 
-  layer_names <- paste0("Y",
-                        rep(sprintf("%04d", as.numeric(names(allyears))),
-                            each = length(start_week:end_week)),
-                        rep.int(sprintf("%02d", as.numeric(start_week:end_week)),
-                                times = length(allyears)))
+  if(step == "Step"){
+    layer_names <- paste0("Y",
+                          rep(sprintf("%04d", as.numeric(names(allyears))),
+                              each = length(start_week:end_week)),
+                          rep.int(sprintf("%02d", as.numeric(start_week:end_week)),
+                                  times = length(allyears)))
 
-  # select weeks
-  allyears <- lapply(allyears, function(x) x[start_week:end_week])
+    # select weeks
+    allyears <- lapply(allyears, function(x) x[start_week:end_week])
 
-  # create one-level list
-  allyears <- unlist(allyears, recursive = FALSE)
+    # create one-level list
+    allyears <- unlist(allyears, recursive = FALSE)
+  }
 
   # create raster list
   allyears <- lapply(allyears, create_raster_single, metadata = metadata)
   allyears <- raster::stack(allyears)
-  names(allyears) <- layer_names
+
+  if(step == "Step"){
+    names(allyears) <- layer_names
+  } else if(step == "Year"){
+    names(allyears) <- years
+  }
+
   attr(allyears, "dname") <- metadata$dname
   return(allyears)
 }
@@ -97,9 +107,10 @@ create_raster_single <- function(input, metadata){
   m <- matrix(NA,
               nrow = nrow(template_raster),
               ncol = ncol(template_raster))
+  # get column numbers, from raster based on y coordinate(s)
   b <- raster::colFromX(template_raster, as.vector(metadata$lon))
-  m[, b] <- input
-
+  m[, b] <- input # insert values to matrix, based on indexes b
+  # column numbers with missing coordinates omitted: 1   2   3   6   7   8   9  10  11  12  13 ...
   # And assign m to the RasterLayer
   raster::values(template_raster) <- m
   return(template_raster)
