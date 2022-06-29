@@ -4,7 +4,7 @@
 \alias{extract_data_list}
 \title{Extract Data List}
 \usage{
-extract_data_list(file, dname, n = 52, years, ...)
+extract_data_list(file, dname, n = 52, years, step = "Step", ...)
 }
 \arguments{
 \item{file}{An ncdf file}
@@ -14,6 +14,8 @@ extract_data_list(file, dname, n = 52, years, ...)
 \item{n}{A number of layers for each year. The default is 52}
 
 \item{years}{A vector indicating years in the input file}
+
+\item{step}{"Step" for weekly data or "Year" for yearly data}
 
 \item{...}{Not used}
 }

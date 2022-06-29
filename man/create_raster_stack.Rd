@@ -4,7 +4,13 @@
 \alias{create_raster_stack}
 \title{Create Raster Stack}
 \usage{
-create_raster_stack(allyears, years, start_week = 1, end_week = 52)
+create_raster_stack(
+  allyears,
+  years,
+  start_week = 1,
+  end_week = 52,
+  step = "Step"
+)
 }
 \arguments{
 \item{allyears}{An output from \code{\link[=extract_data_list]{extract_data_list()}}}
@@ -16,6 +22,8 @@ The default is 1}
 
 \item{end_week}{A number of last week in the output RasterStack.
 The default is 52}
+
+\item{step}{"Step" for weekly data or "Year" for yearly data}
 }
 \value{
 A RasterStack with some metadata

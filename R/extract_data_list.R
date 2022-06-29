@@ -4,6 +4,7 @@
 #' @param dname A variable name. One of "Weekly Growth Index", "Hot Stress", "Dry Stress", "Wet Stress", "Cold Stress", "Ecoclimatic Index", "Moisture Index", "Temperature Index"
 #' @param n A number of layers for each year. The default is 52
 #' @param years A vector indicating years in the input file
+#' @param step "Step" for weekly data or "Year" for yearly data
 #' @param ... Not used
 #'
 #' @return A nested list with spatio-thematic metadata.
@@ -19,11 +20,15 @@
 #'   AllYears <- extract_data_list(input_file, "Weekly Growth Index",
 #'                               years = 2000:2014)
 #' }
-extract_data_list <- function(file, dname, n = 52, years, ...){
+extract_data_list <- function(file, dname, n = 52, years, step = "Step", ...){
+
+  if(step == "Year"){
+    n <- 1
+  }
   climexncdf <- ncdf4::nc_open(file)
   lon <- ncdf4::ncvar_get(climexncdf, "Longitude")
   lat <- ncdf4::ncvar_get(climexncdf, "Latitude")
-  t <- ncdf4::ncvar_get(climexncdf, "Step")
+  t <- ncdf4::ncvar_get(climexncdf, step)
   nlon <- dim(lon)
   tmp_array <- ncdf4::ncvar_get(climexncdf, dname)
 
@@ -41,7 +46,13 @@ extract_data_list <- function(file, dname, n = 52, years, ...){
   if (missing(years)){
     years <- seq_len(length(t) / n)
   }
-  result <- create_data_list(tmp_stack, n = n, years = years)
+
+  if(step == "Step") {
+    result <- create_data_list(tmp_stack, n = n, years = years)
+  } else if(step == "Year") {
+    result <- tmp_stack
+    names(result) <- years
+  }
 
   metadata <- list(lon = lon, lat = lat, dname = dname)
   attr(result, "metadata") <- metadata
